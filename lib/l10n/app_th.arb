@@ -1,0 +1,42 @@
+{
+  "appTitle": "Airwareness2",
+  "searchLocation": "ค้นหาสถานที่",
+  "noLocationSelected": "ไม่ได้เลือกสถานที่",
+  "unknownLocation": "ไม่ทราบชื่อ",
+  "settings": "การตั้งค่า",
+  "language": "ภาษา",
+  "sensitiveGroup": "กลุ่มเปราะบาง",
+  "sensitiveGroupDesc": "ฉันมีโรคหอบหืด ภูมิแพ้ หรือโรคทางเดินหายใจอื่นๆ",
+  "generalPopulation": "คนทั่วไป",
+  "generalPopulationDesc": "ฉันไม่มีปัญหาทางเดินหายใจเป็นพิเศษ",
+  "welcomeTitle": "ยินดีต้อนรับสู่\nAirwareness",
+  "welcomeSubtitle": "มาปรับแต่งประสบการณ์การใช้งานตามความต้องการด้านสุขภาพของคุณกันเถอะ",
+  "wearingMask": "สวมหน้ากาก",
+  "closeWindows": "ปิดหน้าต่าง",
+  "sunscreen": "ครีมกันแดด",
+  "umbrella": "ร่ม",
+  "airPurifier": "เปิดเครื่องฟอกอากาศ",
+  "aqiGood": "ดี",
+  "aqiModerate": "ปานกลาง",
+  "aqiUnhealthySensitive": "ไม่ดีต่อสุขภาพกลุ่มเปราะบาง",
+  "aqiUnhealthy": "ไม่ดีต่อสุขภาพ",
+  "aqiVeryUnhealthy": "ไม่ดีต่อสุขภาพอย่างมาก",
+  "aqiHazardous": "อันตราย",
+  
+  "actGood": "วันนี้เป็นวันที่ดีมากสำหรับการทำกิจกรรมกลางแจ้ง",
+  
+  "actModerateGeneral": "วันนี้เป็นวันที่ดีสำหรับการทำกิจกรรมกลางแจ้ง",
+  "actModerateSensitive": "ควรพิจารณาลดเวลาและความหนักของกิจกรรมกลางแจ้ง",
+  
+  "actUnhealthySensitiveGeneral": "วันนี้เป็นวันที่ดีสำหรับการทำกิจกรรมกลางแจ้ง",
+  "actUnhealthySensitiveSensitive": "ควรลดเวลาและความหนักของกิจกรรมกลางแจ้ง และพักให้บ่อยขึ้น",
+  
+  "actUnhealthyGeneral": "ลดกิจกรรมที่ใช้เวลานานหรือใช้แรงมาก และพักให้บ่อยขึ้น",
+  "actUnhealthySensitive": "หลีกเลี่ยงกิจกรรมกลางแจ้งที่ใช้เวลานานหรือใช้แรงมาก พิจารณาย้ายไปทำกิจกรรมในร่ม",
+  
+  "actVeryUnhealthyGeneral": "หลีกเลี่ยงกิจกรรมที่ใช้เวลานานหรือใช้แรงมาก พิจารณาย้ายไปทำกิจกรรมในร่ม",
+  "actVeryUnhealthySensitive": "หลีกเลี่ยงกิจกรรมทางกายกลางแจ้งทั้งหมด ย้ายไปทำกิจกรรมในร่ม",
+  
+  "actHazardousGeneral": "หลีกเลี่ยงกิจกรรมทางกายกลางแจ้งทั้งหมด",
+  "actHazardousSensitive": "อยู่ในอาคารและทำกิจกรรมให้น้อยที่สุด"
+}

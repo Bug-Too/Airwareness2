@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../l10n/app_localizations.dart';
 import '../providers/app_provider.dart';
 import 'search_screen.dart';
 
@@ -13,6 +14,8 @@ class OnboardingScreen extends StatefulWidget {
 class _OnboardingScreenState extends State<OnboardingScreen> {
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: SafeArea(
@@ -23,7 +26,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             children: [
               const Spacer(),
               Text(
-                'Welcome to\nAirwareness',
+                l10n.welcomeTitle,
                 style: Theme.of(context).textTheme.displayMedium?.copyWith(
                       fontWeight: FontWeight.bold,
                       color: Colors.white,
@@ -31,7 +34,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               ),
               const SizedBox(height: 16),
               Text(
-                'Let\'s customize your experience based on your health needs.',
+                l10n.welcomeSubtitle,
                 style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                       color: Colors.grey[400],
                     ),
@@ -39,16 +42,16 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               const Spacer(),
               _buildOption(
                 context,
-                title: 'Sensitive Group',
-                description: 'I have asthma, allergies, or other respiratory conditions.',
+                title: l10n.sensitiveGroup,
+                description: l10n.sensitiveGroupDesc,
                 isSensitive: true,
                 icon: Icons.personal_injury,
               ),
               const SizedBox(height: 16),
               _buildOption(
                 context,
-                title: 'General Population',
-                description: 'I don\'t have any specific respiratory sensitivities.',
+                title: l10n.generalPopulation,
+                description: l10n.generalPopulationDesc,
                 isSensitive: false,
                 icon: Icons.person,
               ),
@@ -77,7 +80,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             if (!context.mounted) return;
              Navigator.pushReplacement(
               context,
-              MaterialPageRoute(builder: (context) => const SearchScreen(isFirstRun: true)),
+              MaterialPageRoute(builder: (context) => const SearchScreen()),
             );
           });
         },

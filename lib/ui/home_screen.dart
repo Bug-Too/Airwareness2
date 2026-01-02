@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../l10n/app_localizations.dart';
 import '../providers/app_provider.dart';
 import 'search_screen.dart';
+import 'settings_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -10,20 +12,29 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const SettingsScreen()),
+          );
+        },
+        backgroundColor: const Color(0xFF1C1C1E),
+        child: const Icon(Icons.settings, color: Colors.white),
+      ),
       body: Consumer<AppProvider>(
         builder: (context, provider, child) {
+          final l10n = AppLocalizations.of(context)!;
+
           if (provider.isLoading) {
             return const Center(child: CircularProgressIndicator());
           }
 
           if (provider.currentLocation == null) {
-            return const Center(child: Text('No location selected'));
+            return Center(child: Text(l10n.noLocationSelected));
           }
 
           final aqi = provider.airQuality?.aqi ?? 0;
-
-
-
 
           return SafeArea(
             child: RefreshIndicator(
@@ -44,7 +55,7 @@ class HomeScreen extends StatelessWidget {
                             );
                           },
                         child: Text(
-                          provider.currentLocation?.name ?? 'Unknown',
+                          provider.currentLocation?.name ?? l10n.unknownLocation,
                           style: const TextStyle(
                             fontSize: 32, 
                             fontWeight: FontWeight.w400,
@@ -93,7 +104,7 @@ class HomeScreen extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              provider.aqiLabel,
+                              _getAqiLabel(context, provider.aqiLabelKey),
                               style: const TextStyle(
                                 fontSize: 18,
                                 fontWeight: FontWeight.w500,
@@ -156,25 +167,25 @@ class HomeScreen extends StatelessWidget {
                           if (provider.showMask)
                             _buildActionCard(
                               icon: Icons.masks,
-                              label: 'Wear a mask', 
+                              label: l10n.wearingMask, 
                               isActive: true,
                             ),
                            if (provider.showSunscreen)
                              _buildActionCard(
                               icon: Icons.wb_sunny,
-                              label: 'Sunscreen',
+                              label: l10n.sunscreen,
                               isActive: true,
                             ),
                           if (provider.showUmbrella)
                             _buildActionCard(
                               icon: Icons.umbrella,
-                              label: 'Umbrella',
+                              label: l10n.umbrella,
                               isActive: true,
                             ),
                           if (provider.closeWindows)
                             _buildActionCard(
                               icon: Icons.window, 
-                              label: 'Close windows',
+                              label: l10n.closeWindows,
                               isActive: true,
                             ),
                         ],
@@ -185,16 +196,15 @@ class HomeScreen extends StatelessWidget {
                       // List Items for Activity and Purifier
                       _buildActionListTile(
                         icon: Icons.directions_run,
-                        label: provider.activityRecommendation,
+                        label: _getActivityRecommendation(context, provider.activityRecommendationKey),
                         isActive: true, // Always show status
                       ),
                       const SizedBox(height: 8),
-                      // Purifier: Guide says "Use HEPA air filters" to keep particles lower indoors.
-                      // Proactive recommendation starting from Moderate (51-100).
+                      // Purifier
                       if (provider.purifierOn)
                         _buildActionListTile(
                           icon: Icons.air,
-                          label: 'Air Purifier On',
+                          label: l10n.airPurifier,
                           isActive: true,
                         ),
                     ],
@@ -206,6 +216,37 @@ class HomeScreen extends StatelessWidget {
         },
       ),
     );
+  }
+
+  String _getAqiLabel(BuildContext context, String key) {
+    final l10n = AppLocalizations.of(context)!;
+    switch (key) {
+      case 'aqiGood': return l10n.aqiGood;
+      case 'aqiModerate': return l10n.aqiModerate;
+      case 'aqiUnhealthySensitive': return l10n.aqiUnhealthySensitive;
+      case 'aqiUnhealthy': return l10n.aqiUnhealthy;
+      case 'aqiVeryUnhealthy': return l10n.aqiVeryUnhealthy;
+      case 'aqiHazardous': return l10n.aqiHazardous;
+      default: return key;
+    }
+  }
+
+  String _getActivityRecommendation(BuildContext context, String key) {
+    final l10n = AppLocalizations.of(context)!;
+    switch (key) {
+      case 'actGood': return l10n.actGood;
+      case 'actModerateGeneral': return l10n.actModerateGeneral;
+      case 'actModerateSensitive': return l10n.actModerateSensitive;
+      case 'actUnhealthySensitiveGeneral': return l10n.actUnhealthySensitiveGeneral;
+      case 'actUnhealthySensitiveSensitive': return l10n.actUnhealthySensitiveSensitive;
+      case 'actUnhealthyGeneral': return l10n.actUnhealthyGeneral;
+      case 'actUnhealthySensitive': return l10n.actUnhealthySensitive;
+      case 'actVeryUnhealthyGeneral': return l10n.actVeryUnhealthyGeneral;
+      case 'actVeryUnhealthySensitive': return l10n.actVeryUnhealthySensitive;
+      case 'actHazardousGeneral': return l10n.actHazardousGeneral;
+      case 'actHazardousSensitive': return l10n.actHazardousSensitive;
+      default: return key;
+    }
   }
 
   Widget _buildActionCard({required IconData icon, required String label, required bool isActive}) {

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'l10n/app_localizations.dart';
 import 'providers/app_provider.dart';
 import 'ui/home_screen.dart';
 import 'ui/onboarding_screen.dart';
@@ -21,9 +23,22 @@ class AirwarenessApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<AppProvider>(context);
+    
     return MaterialApp(
       title: 'Airwareness2',
       debugShowCheckedModeBanner: false,
+      locale: provider.locale,
+      supportedLocales: const [
+        Locale('en'),
+        Locale('th'),
+      ],
+      localizationsDelegates: const [
+        AppLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
       theme: ThemeData(
         brightness: Brightness.dark,
         scaffoldBackgroundColor: Colors.black,

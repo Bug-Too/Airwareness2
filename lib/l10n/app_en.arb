@@ -1,0 +1,42 @@
+{
+  "appTitle": "Airwareness2",
+  "searchLocation": "Search Location",
+  "noLocationSelected": "No location selected",
+  "unknownLocation": "Unknown",
+  "settings": "Settings",
+  "language": "Language",
+  "sensitiveGroup": "Sensitive Group",
+  "sensitiveGroupDesc": "I have asthma, allergies, or other respiratory conditions.",
+  "generalPopulation": "General Population",
+  "generalPopulationDesc": "I don't have any specific respiratory sensitivities.",
+  "welcomeTitle": "Welcome to\nAirwareness",
+  "welcomeSubtitle": "Let's customize your experience based on your health needs.",
+  "wearingMask": "Wear a mask",
+  "closeWindows": "Close windows",
+  "sunscreen": "Sunscreen",
+  "umbrella": "Umbrella",
+  "airPurifier": "Air Purifier On",
+  "aqiGood": "Good",
+  "aqiModerate": "Moderate",
+  "aqiUnhealthySensitive": "Unhealthy for Sensitive Groups",
+  "aqiUnhealthy": "Unhealthy",
+  "aqiVeryUnhealthy": "Very Unhealthy",
+  "aqiHazardous": "Hazardous",
+  
+  "actGood": "It’s a great day to be active outside.",
+  
+  "actModerateGeneral": "It’s a good day to be active outside.",
+  "actModerateSensitive": "Consider making outdoor activities shorter and less intense.",
+  
+  "actUnhealthySensitiveGeneral": "It’s a good day to be active outside.",
+  "actUnhealthySensitiveSensitive": "Make outdoor activities shorter and less intense. Take more breaks.",
+  
+  "actUnhealthyGeneral": "Reduce long or intense activities. Take more breaks.",
+  "actUnhealthySensitive": "Avoid long or intense outdoor activities. Consider moving indoors.",
+  
+  "actVeryUnhealthyGeneral": "Avoid long or intense activities. Consider moving indoors.",
+  "actVeryUnhealthySensitive": "Avoid all physical activity outdoors. Move activities indoors.",
+  
+  "actHazardousGeneral": "Avoid all physical activity outdoors.",
+  "actHazardousSensitive": "Remain indoors and keep activity levels low."
+}

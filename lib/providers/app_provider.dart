@@ -12,13 +12,21 @@ class AppProvider with ChangeNotifier {
   bool _isOnboardingComplete = false;
   LocationResult? _currentLocation;
   
+  bool get isSensitive => _isSensitive;
+  bool get isOnboardingComplete => _isOnboardingComplete;
+  
   AirQuality? _airQuality;
   Weather? _weather;
   bool _isLoading = false;
   String? _error;
+  Locale _locale = const Locale('en');
+  Locale get locale => _locale;
 
-  bool get isSensitive => _isSensitive;
-  bool get isOnboardingComplete => _isOnboardingComplete;
+  void setLocale(Locale newLocale) {
+    _locale = newLocale;
+    notifyListeners();
+  }
+
   // Derived State (Business Logic)
   bool get showMask {
     final aqi = _airQuality?.aqi ?? 0;
@@ -46,43 +54,34 @@ class AppProvider with ChangeNotifier {
     return aqi > 50;
   }
 
-  String get aqiLabel {
+  // Return a key to map to localization in UI
+  String get aqiLabelKey {
     final aqi = _airQuality?.aqi ?? 0;
-    if (aqi <= 50) return 'Good';
-    if (aqi <= 100) return 'Moderate';
-    if (aqi <= 150) return 'Unhealthy for Sensitive Groups';
-    if (aqi <= 200) return 'Unhealthy';
-    if (aqi <= 300) return 'Very Unhealthy';
-    return 'Hazardous';
+    if (aqi <= 50) return 'aqiGood';
+    if (aqi <= 100) return 'aqiModerate';
+    if (aqi <= 150) return 'aqiUnhealthySensitive';
+    if (aqi <= 200) return 'aqiUnhealthy';
+    if (aqi <= 300) return 'aqiVeryUnhealthy';
+    return 'aqiHazardous';
   }
 
-  String get activityRecommendation {
+  // Return key for activity recommendation
+  String get activityRecommendationKey {
     final aqi = _airQuality?.aqi ?? 0;
-     if (aqi <= 50) return 'It’s a great day to be active outside.';
+     if (aqi <= 50) return 'actGood';
      if (aqi <= 100) {
-       return _isSensitive 
-           ? 'Consider making outdoor activities shorter and less intense.' 
-           : 'It’s a good day to be active outside.';
+       return _isSensitive ? 'actModerateSensitive' : 'actModerateGeneral';
      }
      if (aqi <= 150) {
-       return _isSensitive 
-           ? 'Make outdoor activities shorter and less intense. Take more breaks.' 
-           : 'It’s a good day to be active outside.';
+       return _isSensitive ? 'actUnhealthySensitiveSensitive' : 'actUnhealthySensitiveGeneral';
      }
      if (aqi <= 200) {
-       return _isSensitive 
-           ? 'Avoid long or intense outdoor activities. Consider moving indoors.' 
-           : 'Reduce long or intense activities. Take more breaks.';
+       return _isSensitive ? 'actUnhealthySensitive' : 'actUnhealthyGeneral';
      }
      if (aqi <= 300) {
-       return _isSensitive 
-           ? 'Avoid all physical activity outdoors. Move activities indoors.' 
-           : 'Avoid long or intense activities. Consider moving indoors.';
+       return _isSensitive ? 'actVeryUnhealthySensitive' : 'actVeryUnhealthyGeneral';
      }
-     // Hazardous
-     return _isSensitive
-         ? 'Remain indoors and keep activity levels low.'
-         : 'Avoid all physical activity outdoors.';
+     return _isSensitive ? 'actHazardousSensitive' : 'actHazardousGeneral';
   }
 
   LocationResult? get currentLocation => _currentLocation;
