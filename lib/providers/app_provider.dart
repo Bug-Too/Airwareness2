@@ -3,17 +3,21 @@ import '../data/models/location_result.dart';
 import '../data/models/weather_data.dart';
 import '../data/services/user_preferences.dart';
 import '../data/services/weather_service.dart';
+import '../data/services/location_service.dart';
 
 class AppProvider with ChangeNotifier {
   final UserPreferences _prefs = UserPreferences();
   final WeatherService _weatherService = WeatherService();
+  final LocationService _locationService = LocationService();
 
   bool _isSensitive = false;
   bool _isOnboardingComplete = false;
   LocationResult? _currentLocation;
+  bool _isInitialized = false;
   
   bool get isSensitive => _isSensitive;
   bool get isOnboardingComplete => _isOnboardingComplete;
+  bool get isInitialized => _isInitialized;
   
   AirQuality? _airQuality;
   Weather? _weather;
@@ -95,9 +99,16 @@ class AppProvider with ChangeNotifier {
     _isOnboardingComplete = await _prefs.isOnboardingComplete();
     _currentLocation = await _prefs.getSavedLocation();
     
+    // If onboarding is complete but no location is selected (e.g. first run or cleared), try device location
+    if (_isOnboardingComplete && _currentLocation == null) {
+      await useDeviceLocation();
+    }
+    
     if (_isOnboardingComplete && _currentLocation != null) {
       fetchData();
     }
+    
+    _isInitialized = true;
     notifyListeners();
   }
 
@@ -106,6 +117,10 @@ class AppProvider with ChangeNotifier {
     _isOnboardingComplete = true;
     await _prefs.setSensitive(isSensitive);
     await _prefs.setOnboardingComplete(true);
+    
+    // Try to get location immediately after onboarding
+    await useDeviceLocation();
+    
     notifyListeners();
   }
 
@@ -113,6 +128,21 @@ class AppProvider with ChangeNotifier {
     _currentLocation = location;
     await _prefs.saveLocation(location);
     fetchData(); // Refresh data for new location
+    notifyListeners();
+  }
+  
+  Future<void> useDeviceLocation() async {
+    _isLoading = true;
+    notifyListeners();
+    
+    final location = await _locationService.determinePosition();
+    if (location != null) {
+      _currentLocation = location;
+      await _prefs.saveLocation(location);
+      await fetchData();
+    }
+    
+    _isLoading = false;
     notifyListeners();
   }
 

@@ -54,6 +54,14 @@ class MainWrapper extends StatelessWidget {
   Widget build(BuildContext context) {
     final provider = Provider.of<AppProvider>(context);
     
+    if (!provider.isInitialized) {
+      return const Scaffold(
+        body: Center(
+          child: CircularProgressIndicator(),
+        ),
+      );
+    }
+    
     if (!provider.isOnboardingComplete) {
       return const OnboardingScreen();
     }

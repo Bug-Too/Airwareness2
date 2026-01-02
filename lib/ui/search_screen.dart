@@ -53,6 +53,37 @@ class _SearchScreenState extends State<SearchScreen> {
       ),
       body: Column(
         children: [
+          ListTile(
+            leading: const Icon(Icons.my_location),
+            title: const Text('Use Current Location'),
+            onTap: () async {
+              final provider = Provider.of<AppProvider>(context, listen: false);
+              final messenger = ScaffoldMessenger.of(context);
+              final navigator = Navigator.of(context);
+              
+              setState(() {
+                _isLoading = true;
+              });
+              
+              await provider.useDeviceLocation();
+              
+              if (!mounted) return;
+
+              setState(() {
+                _isLoading = false;
+              });
+              
+              if (provider.currentLocation != null) {
+                if (!widget.isFirstRun) {
+                  navigator.pop();
+                }
+              } else {
+                messenger.showSnackBar(
+                  const SnackBar(content: Text('Unable to determine location')),
+                );
+              }
+            },
+          ),
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: TextField(
