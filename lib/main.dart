@@ -30,7 +30,6 @@ class AirwarenessApp extends StatelessWidget {
         colorScheme: const ColorScheme.dark(
           primary: Colors.white,
           secondary: Colors.blue,
-          background: Colors.black,
           surface: Color(0xFF1E1E1E),
         ),
         useMaterial3: true,

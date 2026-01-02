@@ -155,34 +155,49 @@ class HomeScreen extends StatelessWidget {
                       
                       const SizedBox(height: 16),
                       
-                      // Grid for Mask / Windows
-                      Row(
+                      // Grid for Recommendations (Mask, Windows, Sunscreen, Umbrella)
+                      GridView.count(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        crossAxisCount: 2,
+                        mainAxisSpacing: 16,
+                        crossAxisSpacing: 16,
+                         childAspectRatio: 1.1,
                         children: [
-                          Expanded(
-                            child: _buildActionCard(
-                              icon: Icons.masks,
-                              label: 'Wear a mask', 
-                              isActive: showMask,
-                            ),
+                          _buildActionCard(
+                            icon: Icons.masks,
+                            label: 'Wear a mask', 
+                            isActive: showMask,
                           ),
-                          const SizedBox(width: 16),
-                          Expanded(
-                            child: _buildActionCard(
-                              icon: Icons.window, 
-                              label: 'Close windows',
-                              isActive: closeWindows,
-                            ),
+                           _buildActionCard(
+                            icon: Icons.wb_sunny,
+                            label: 'Sunscreen',
+                            isActive: aqi < 100 && (weather?.uvIndex ?? 0) > 3, // Logic: Priority to mask if AQI bad? Or always show? Let's show if needed.
+                            // Actually user asked "need sunscreen?".
+                            // Let's show it if UV is high.
+                          ),
+                          _buildActionCard(
+                            icon: Icons.umbrella,
+                            label: 'Umbrella',
+                            isActive: (weather?.rainProbability ?? 0) > 30,
+                          ),
+                          _buildActionCard(
+                            icon: Icons.window, 
+                            label: 'Close windows',
+                            isActive: closeWindows,
                           ),
                         ],
                       ),
                       
                       const SizedBox(height: 16),
                       
-                      // List Items
+                      // List Items for Activity and Purifier
                       _buildActionListTile(
                         icon: Icons.directions_run,
-                        label: 'Limit outdoor activities',
-                        isActive: limitOutdoor,
+                        label: limitOutdoor ? 'Limit outdoor activities' : 'Good for outdoor activities',
+                        isActive: true, // Always show status
+                        // Maybe change color if good?
+                        // For now keep white text style but maybe icon color?
                       ),
                       const SizedBox(height: 8),
                       _buildActionListTile(

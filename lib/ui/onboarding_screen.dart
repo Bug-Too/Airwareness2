@@ -14,7 +14,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(24.0),
@@ -26,14 +26,14 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 'Welcome to\nAirwareness',
                 style: Theme.of(context).textTheme.displayMedium?.copyWith(
                       fontWeight: FontWeight.bold,
-                      color: Colors.blueGrey[900],
+                      color: Colors.white,
                     ),
               ),
               const SizedBox(height: 16),
               Text(
                 'Let\'s customize your experience based on your health needs.',
                 style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                      color: Colors.blueGrey[600],
+                      color: Colors.grey[400],
                     ),
               ),
               const Spacer(),
@@ -66,7 +66,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       required bool isSensitive,
       required IconData icon}) {
     return Material(
-      color: Colors.grey[50],
+      color: const Color(0xFF1C1C1E),
       borderRadius: BorderRadius.circular(16),
       child: InkWell(
         borderRadius: BorderRadius.circular(16),
@@ -84,7 +84,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         child: Container(
           padding: const EdgeInsets.all(20),
           decoration: BoxDecoration(
-            border: Border.all(color: Colors.grey[200]!),
+            border: Border.all(color: Colors.white10),
             borderRadius: BorderRadius.circular(16),
           ),
           child: Row(
@@ -92,7 +92,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               Container(
                 padding: const EdgeInsets.all(12),
                 decoration: BoxDecoration(
-                  color: Colors.blue[50],
+                  color: Colors.blue.withValues(alpha: 0.2),
                   shape: BoxShape.circle,
                 ),
                 child: Icon(icon, color: Colors.blue),
@@ -107,13 +107,14 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                       style: const TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 16,
+                        color: Colors.white,
                       ),
                     ),
                     const SizedBox(height: 4),
                     Text(
                       description,
                       style: TextStyle(
-                        color: Colors.grey[600],
+                        color: Colors.grey[400],
                         fontSize: 12,
                       ),
                     ),
