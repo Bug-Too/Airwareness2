@@ -1,10 +1,12 @@
-class LocationResult {
+import 'package:equatable/equatable.dart';
+
+class LocationResult extends Equatable {
   final String name;
   final double latitude;
   final double longitude;
   final String country;
 
-  LocationResult({
+  const LocationResult({
     required this.name,
     required this.latitude,
     required this.longitude,
@@ -19,4 +21,7 @@ class LocationResult {
       country: json['country'] ?? '',
     );
   }
+
+  @override
+  List<Object?> get props => [name, latitude, longitude, country];
 }

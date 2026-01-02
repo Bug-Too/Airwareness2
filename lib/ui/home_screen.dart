@@ -21,20 +21,9 @@ class HomeScreen extends StatelessWidget {
           }
 
           final aqi = provider.airQuality?.aqi ?? 0;
-          final weather = provider.weather;
 
-          // Logic mapping to screenshot actions
-          // "Wear a mask" - pollution based
-          bool showMask = (aqi > 100 && provider.isSensitive) || aqi > 150;
-          
-          // "Close windows" - pollution based
-          bool closeWindows = aqi > 100;
-          
-          // "Limit outdoor activities"
-          bool limitOutdoor = aqi > 100;
-          
-          // "Air Purifier On"
-          bool purifierOn = aqi > 50;
+
+
 
           return SafeArea(
             child: RefreshIndicator(
@@ -104,7 +93,7 @@ class HomeScreen extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              _getAqiLabel(aqi),
+                              provider.aqiLabel,
                               style: const TextStyle(
                                 fontSize: 18,
                                 fontWeight: FontWeight.w500,
@@ -164,29 +153,29 @@ class HomeScreen extends StatelessWidget {
                         crossAxisSpacing: 16,
                          childAspectRatio: 1.1,
                         children: [
-                          if (showMask)
+                          if (provider.showMask)
                             _buildActionCard(
                               icon: Icons.masks,
                               label: 'Wear a mask', 
-                              isActive: showMask,
+                              isActive: true,
                             ),
-                           if ((weather?.uvIndex ?? 0) > 3)
+                           if (provider.showSunscreen)
                              _buildActionCard(
                               icon: Icons.wb_sunny,
                               label: 'Sunscreen',
                               isActive: true,
                             ),
-                          if ((weather?.rainProbability ?? 0) > 30)
+                          if (provider.showUmbrella)
                             _buildActionCard(
                               icon: Icons.umbrella,
                               label: 'Umbrella',
                               isActive: true,
                             ),
-                          if (closeWindows)
+                          if (provider.closeWindows)
                             _buildActionCard(
                               icon: Icons.window, 
                               label: 'Close windows',
-                              isActive: closeWindows,
+                              isActive: true,
                             ),
                         ],
                       ),
@@ -196,15 +185,17 @@ class HomeScreen extends StatelessWidget {
                       // List Items for Activity and Purifier
                       _buildActionListTile(
                         icon: Icons.directions_run,
-                        label: limitOutdoor ? 'Limit outdoor activities' : 'Good for outdoor activities',
+                        label: provider.activityRecommendation,
                         isActive: true, // Always show status
                       ),
                       const SizedBox(height: 8),
-                      if (purifierOn)
+                      // Purifier: Guide says "Use HEPA air filters" to keep particles lower indoors.
+                      // Proactive recommendation starting from Moderate (51-100).
+                      if (provider.purifierOn)
                         _buildActionListTile(
                           icon: Icons.air,
                           label: 'Air Purifier On',
-                          isActive: purifierOn,
+                          isActive: true,
                         ),
                     ],
                   ),
@@ -215,15 +206,6 @@ class HomeScreen extends StatelessWidget {
         },
       ),
     );
-  }
-
-  String _getAqiLabel(int aqi) {
-    if (aqi <= 50) return 'Good';
-    if (aqi <= 100) return 'Moderate';
-    if (aqi <= 150) return 'Unhealthy for Sensitive Groups';
-    if (aqi <= 200) return 'Unhealthy';
-    if (aqi <= 300) return 'Very Unhealthy';
-    return 'Hazardous';
   }
 
   Widget _buildActionCard({required IconData icon, required String label, required bool isActive}) {

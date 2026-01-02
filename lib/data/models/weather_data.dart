@@ -1,9 +1,11 @@
-class AirQuality {
+import 'package:equatable/equatable.dart';
+
+class AirQuality extends Equatable {
   final int aqi; // US AQI
   final double pm25;
   final double pm10;
 
-  AirQuality({
+  const AirQuality({
     required this.aqi,
     required this.pm25,
     required this.pm10,
@@ -19,15 +21,18 @@ class AirQuality {
       pm10: (json['pm10'] as num).toDouble(),
     );
   }
+
+  @override
+  List<Object?> get props => [aqi, pm25, pm10];
 }
 
-class Weather {
+class Weather extends Equatable {
   final double temperature;
   final double uvIndex;
   final double rainProbability; // 0-100
   final double windSpeed;
 
-  Weather({
+  const Weather({
     required this.temperature,
     required this.uvIndex,
     required this.rainProbability,
@@ -42,4 +47,7 @@ class Weather {
       windSpeed: (json['wind_speed_10m'] as num).toDouble(),
     );
   }
+
+  @override
+  List<Object?> get props => [temperature, uvIndex, rainProbability, windSpeed];
 }

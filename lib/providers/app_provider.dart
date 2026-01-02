@@ -19,6 +19,72 @@ class AppProvider with ChangeNotifier {
 
   bool get isSensitive => _isSensitive;
   bool get isOnboardingComplete => _isOnboardingComplete;
+  // Derived State (Business Logic)
+  bool get showMask {
+    final aqi = _airQuality?.aqi ?? 0;
+    if (_isSensitive) return aqi > 100;
+    return aqi > 150;
+  }
+
+  bool get showSunscreen {
+    final uv = _weather?.uvIndex ?? 0;
+    return uv > 3;
+  }
+
+  bool get showUmbrella {
+    final rain = _weather?.rainProbability ?? 0;
+    return rain > 30;
+  }
+
+  bool get closeWindows {
+    final aqi = _airQuality?.aqi ?? 0;
+    return aqi > 100;
+  }
+
+  bool get purifierOn {
+    final aqi = _airQuality?.aqi ?? 0;
+    return aqi > 50;
+  }
+
+  String get aqiLabel {
+    final aqi = _airQuality?.aqi ?? 0;
+    if (aqi <= 50) return 'Good';
+    if (aqi <= 100) return 'Moderate';
+    if (aqi <= 150) return 'Unhealthy for Sensitive Groups';
+    if (aqi <= 200) return 'Unhealthy';
+    if (aqi <= 300) return 'Very Unhealthy';
+    return 'Hazardous';
+  }
+
+  String get activityRecommendation {
+    final aqi = _airQuality?.aqi ?? 0;
+     if (aqi <= 50) return 'It’s a great day to be active outside.';
+     if (aqi <= 100) {
+       return _isSensitive 
+           ? 'Consider making outdoor activities shorter and less intense.' 
+           : 'It’s a good day to be active outside.';
+     }
+     if (aqi <= 150) {
+       return _isSensitive 
+           ? 'Make outdoor activities shorter and less intense. Take more breaks.' 
+           : 'It’s a good day to be active outside.';
+     }
+     if (aqi <= 200) {
+       return _isSensitive 
+           ? 'Avoid long or intense outdoor activities. Consider moving indoors.' 
+           : 'Reduce long or intense activities. Take more breaks.';
+     }
+     if (aqi <= 300) {
+       return _isSensitive 
+           ? 'Avoid all physical activity outdoors. Move activities indoors.' 
+           : 'Avoid long or intense activities. Consider moving indoors.';
+     }
+     // Hazardous
+     return _isSensitive
+         ? 'Remain indoors and keep activity levels low.'
+         : 'Avoid all physical activity outdoors.';
+  }
+
   LocationResult? get currentLocation => _currentLocation;
   AirQuality? get airQuality => _airQuality;
   Weather? get weather => _weather;
