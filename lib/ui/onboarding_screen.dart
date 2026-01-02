@@ -1,0 +1,130 @@
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../providers/app_provider.dart';
+import 'search_screen.dart';
+
+class OnboardingScreen extends StatefulWidget {
+  const OnboardingScreen({super.key});
+
+  @override
+  State<OnboardingScreen> createState() => _OnboardingScreenState();
+}
+
+class _OnboardingScreenState extends State<OnboardingScreen> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(24.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Spacer(),
+              Text(
+                'Welcome to\nAirwareness',
+                style: Theme.of(context).textTheme.displayMedium?.copyWith(
+                      fontWeight: FontWeight.bold,
+                      color: Colors.blueGrey[900],
+                    ),
+              ),
+              const SizedBox(height: 16),
+              Text(
+                'Let\'s customize your experience based on your health needs.',
+                style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                      color: Colors.blueGrey[600],
+                    ),
+              ),
+              const Spacer(),
+              _buildOption(
+                context,
+                title: 'Sensitive Group',
+                description: 'I have asthma, allergies, or other respiratory conditions.',
+                isSensitive: true,
+                icon: Icons.personal_injury,
+              ),
+              const SizedBox(height: 16),
+              _buildOption(
+                context,
+                title: 'General Population',
+                description: 'I don\'t have any specific respiratory sensitivities.',
+                isSensitive: false,
+                icon: Icons.person,
+              ),
+              const Spacer(),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildOption(BuildContext context,
+      {required String title,
+      required String description,
+      required bool isSensitive,
+      required IconData icon}) {
+    return Material(
+      color: Colors.grey[50],
+      borderRadius: BorderRadius.circular(16),
+      child: InkWell(
+        borderRadius: BorderRadius.circular(16),
+        onTap: () {
+          // Complete onboarding, then go to Search since we need a location
+          final provider = Provider.of<AppProvider>(context, listen: false);
+          provider.completeOnboarding(isSensitive).then((_) {
+            if (!context.mounted) return;
+             Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => const SearchScreen(isFirstRun: true)),
+            );
+          });
+        },
+        child: Container(
+          padding: const EdgeInsets.all(20),
+          decoration: BoxDecoration(
+            border: Border.all(color: Colors.grey[200]!),
+            borderRadius: BorderRadius.circular(16),
+          ),
+          child: Row(
+            children: [
+              Container(
+                padding: const EdgeInsets.all(12),
+                decoration: BoxDecoration(
+                  color: Colors.blue[50],
+                  shape: BoxShape.circle,
+                ),
+                child: Icon(icon, color: Colors.blue),
+              ),
+              const SizedBox(width: 16),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      title,
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                      ),
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      description,
+                      style: TextStyle(
+                        color: Colors.grey[600],
+                        fontSize: 12,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const Icon(Icons.arrow_forward_ios, size: 16, color: Colors.grey),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
