@@ -101,4 +101,21 @@ class WeatherService {
   }
 
 
+  Future<String?> getCityNameFromCoordinates(double lat, double long) async {
+    try {
+      final reverseUrl = 'https://geocoding-api.open-meteo.com/v1/reverse?latitude=$lat&longitude=$long&count=1&language=en&format=json';
+      final response = await http.get(Uri.parse(reverseUrl));
+
+      if (response.statusCode == 200) {
+        final data = json.decode(response.body);
+        if (data['results'] != null && (data['results'] as List).isNotEmpty) {
+           final place = data['results'][0];
+           return place['name'] ?? place['city'] ?? place['town'] ?? place['village'];
+        }
+      }
+    } catch (e) {
+      // debugPrint(e.toString());
+    }
+    return null;
+  }
 }
