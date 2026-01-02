@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../l10n/app_localizations.dart';
 import '../providers/app_provider.dart';
-import 'search_screen.dart';
+
 
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({super.key});
@@ -75,14 +75,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         borderRadius: BorderRadius.circular(16),
         onTap: () {
           // Complete onboarding, then go to Search since we need a location
-          final provider = Provider.of<AppProvider>(context, listen: false);
-          provider.completeOnboarding(isSensitive).then((_) {
-            if (!context.mounted) return;
-             Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (context) => const SearchScreen()),
-            );
-          });
+          context.read<AppProvider>().completeOnboarding(isSensitive);
+          // MainWrapper will switch to SearchScreen automatically
         },
         child: Container(
           padding: const EdgeInsets.all(20),

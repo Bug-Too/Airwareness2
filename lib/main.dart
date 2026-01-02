@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'l10n/app_localizations.dart';
 import 'providers/app_provider.dart';
 import 'ui/home_screen.dart';
 import 'ui/onboarding_screen.dart';
+import 'ui/search_screen.dart';
 
 void main() {
   runApp(
@@ -29,16 +29,8 @@ class AirwarenessApp extends StatelessWidget {
       title: 'Airwareness2',
       debugShowCheckedModeBanner: false,
       locale: provider.locale,
-      supportedLocales: const [
-        Locale('en'),
-        Locale('th'),
-      ],
-      localizationsDelegates: const [
-        AppLocalizations.delegate,
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-      ],
+      supportedLocales: AppLocalizations.supportedLocales,
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
       theme: ThemeData(
         brightness: Brightness.dark,
         scaffoldBackgroundColor: Colors.black,
@@ -64,6 +56,10 @@ class MainWrapper extends StatelessWidget {
     
     if (!provider.isOnboardingComplete) {
       return const OnboardingScreen();
+    }
+
+    if (provider.currentLocation == null) {
+      return const SearchScreen(isFirstRun: true);
     }
     
     return const HomeScreen();

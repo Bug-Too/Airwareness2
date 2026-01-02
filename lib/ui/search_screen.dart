@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import '../data/models/location_result.dart';
 import '../data/services/weather_service.dart';
 import '../providers/app_provider.dart';
-import 'home_screen.dart';
+
 
 class SearchScreen extends StatefulWidget {
   final bool isFirstRun;
@@ -91,14 +91,10 @@ class _SearchScreenState extends State<SearchScreen> {
                     final provider = Provider.of<AppProvider>(context, listen: false);
                     provider.setLocation(loc);
                     
-                    if (widget.isFirstRun) {
-                      Navigator.of(context).pushAndRemoveUntil(
-                        MaterialPageRoute(builder: (context) => const HomeScreen()),
-                        (route) => false,
-                      );
-                    } else {
+                    if (!widget.isFirstRun) {
                       Navigator.pop(context);
                     }
+                    // If isFirstRun, MainWrapper detects location change and switches to Home automatically.
                   },
                 );
               },
