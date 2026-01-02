@@ -52,14 +52,14 @@ class LocationService {
       // Native failed
     }
 
-    // 2. Fallback to API if name is Unknown
-    if (name == 'Unknown') {
+    // 2. Fallback to API if name is Unknown or Empty
+    if (name == 'Unknown' || name.isEmpty) {
       try {
         final apiName = await _weatherService.getCityNameFromCoordinates(
           position.latitude, 
           position.longitude
         );
-        if (apiName != null) {
+        if (apiName != null && apiName.isNotEmpty) {
           name = apiName;
         }
       } catch (e) {
