@@ -1,6 +1,6 @@
 # airwareness2
 
-A new Flutter project.
+Moved to [airwareness2](https://github.com/AreYouWorking/Airwareness2)
 
 ## Getting Started
 
